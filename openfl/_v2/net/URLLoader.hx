@@ -138,6 +138,9 @@ class URLLoader extends EventDispatcher {
 			__dataComplete ();
 			
 		} else {
+			#if cpp
+			__lock.acquire();
+			#end
 			
 			request.__prepare ();
 			__handle = lime_curl_create (request);
@@ -151,6 +154,10 @@ class URLLoader extends EventDispatcher {
 				activeLoaders.push (this);
 				
 			}
+
+			#if cpp
+			__lock.release();
+			#end
 			
 		}
 		
@@ -259,9 +266,16 @@ class URLLoader extends EventDispatcher {
 		return !activeLoaders.isEmpty ();
 		
 	}
-	
-	
+
+	#if cpp
+	static var __lock = new cpp.vm.Mutex();
+	#end
+
 	@:noCompletion public static function __pollData ():Void {
+		#if cpp
+		if( !__lock.tryAcquire() )
+			return;
+		#end
 		
 		if (!activeLoaders.isEmpty ()) {
 			
@@ -281,6 +295,10 @@ class URLLoader extends EventDispatcher {
 			}
 			
 		}
+
+		#if cpp
+		__lock.release();
+		#end
 		
 	}
 	
