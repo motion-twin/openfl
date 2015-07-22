@@ -36,8 +36,13 @@ class DirectRenderer extends DisplayObject {
 	
 	
 	@:noCompletion private function __onRender (rect:Dynamic):Void {
+		try {
 		
-		if (render != null) render (new Rectangle (rect.x, rect.y, rect.width, rect.height));
+			if (render != null) render (new Rectangle (rect.x, rect.y, rect.width, rect.height));
+
+		}catch( e : Dynamic ){
+			openfl.Lib.rethrow( e );
+		}
 		
 	}
 	
