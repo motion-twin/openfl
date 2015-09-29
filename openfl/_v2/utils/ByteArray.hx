@@ -561,7 +561,7 @@ class ByteArray extends Bytes implements ArrayAccess<Int> implements IDataInput 
 		writeByte (value ? 1 : 0);
 		
 	}
-	
+/* NAive implementation, the flash format being  the AMF serialized format.
 	public function writeObject(object: Dynamic): Void {
 		var sobj = haxe.Serializer.run(object);
 		writeUTF(sobj);
@@ -571,7 +571,7 @@ class ByteArray extends Bytes implements ArrayAccess<Int> implements IDataInput 
 		var sobj = readUTF();
 		return try haxe.Unserializer.run(sobj) catch (e:Dynamic) null;
 	}
-	
+*/
 	inline public function writeByte (value:Int):Void {
 		
 		ensureElem (position, true);
