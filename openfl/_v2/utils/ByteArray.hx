@@ -567,9 +567,9 @@ class ByteArray extends Bytes implements ArrayAccess<Int> implements IDataInput 
 		writeUTF(sobj);
 	}
 	
-	public function readObject(): Dynamic {
+	public function readObject(): Null<Dynamic> {
 		var sobj = readUTF();
-		return haxe.Unserializer.run(sobj);
+		return try haxe.Unserializer.run(sobj) catch (e:Dynamic) null;
 	}
 	
 	inline public function writeByte (value:Int):Void {
