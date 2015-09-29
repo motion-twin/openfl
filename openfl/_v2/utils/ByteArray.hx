@@ -307,13 +307,11 @@ class ByteArray extends Bytes implements ArrayAccess<Int> implements IDataInput 
 	
 	
 	#if !no_lime_io
-	
 	static public function readFile (path:String):ByteArray {
 		
 		return lime_byte_array_read_file (path);
 		
 	}
-	
 	#end
 	
 	
@@ -339,19 +337,15 @@ class ByteArray extends Bytes implements ArrayAccess<Int> implements IDataInput 
 		
 		position += 4;
 		return _float_of_bytes (bytes.b, bigEndian);
-		
 	}
 	
 	
 	public function readInt ():Int {
-		
 		var ch1 = readUnsignedByte ();
 		var ch2 = readUnsignedByte ();
 		var ch3 = readUnsignedByte ();
 		var ch4 = readUnsignedByte ();
-		
 		return bigEndian ? (ch1 << 24) | (ch2 << 16) | (ch3 << 8) | ch4 : (ch4 << 24) | (ch3 << 16) | (ch2 << 8) | ch1;
-		
 	}
 	
 	
@@ -362,7 +356,7 @@ class ByteArray extends Bytes implements ArrayAccess<Int> implements IDataInput 
 	}
 	
 	public inline function writeMultiByte(value: String, charSet: String): Void {
-		  writeUTFBytes(value);
+		writeUTFBytes(value);
    }
 	
 	public function readShort ():Int {
@@ -567,10 +561,16 @@ class ByteArray extends Bytes implements ArrayAccess<Int> implements IDataInput 
 		writeByte (value ? 1 : 0);
 		
 	}
-        public function writeObject(object: Dynamic): Void {
- 
-        } 
 	
+	public function writeObject(object: Dynamic): Void {
+		var sobj = haxe.Serializer.run(object);
+		writeUTF(sobj);
+	}
+	
+	public function readObject(): Dynamic {
+		var sobj = readUTF();
+		return haxe.Unserializer.run(sobj);
+	}
 	
 	inline public function writeByte (value:Int):Void {
 		
