@@ -68,6 +68,7 @@ class LoaderInfo extends URLLoader {
 	public override function load (request:URLRequest):Void {
 		
 		__pendingURL = request.url;
+		/*
 		var dot = __pendingURL.lastIndexOf (".");
 		var extension = dot > 0 ? __pendingURL.substr (dot + 1).toLowerCase () : "";
 		
@@ -84,6 +85,7 @@ class LoaderInfo extends URLLoader {
 				throw "Unrecognized file " + __pendingURL;
 			
 		}
+		*/
 		
 		url = null;
 		
